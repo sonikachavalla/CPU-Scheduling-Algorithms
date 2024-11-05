@@ -10,50 +10,50 @@ public class PriorityRoundRobin {
             return;
         }
 
-        String fileName = args[0];
+        String ScheduleFName = args[0];
 
         try {
-            List<Task> tasks = readTasksFromFile(fileName);
-            runPriorityRoundRobin(tasks);
+            List<Task> tsk = readTasksFromFile(ScheduleFName);
+            execPriorityRoundRobin(tsk);
         } catch (IOException e) {
-            System.out.println("Error reading the file: " + fileName);
+            System.out.println("Error reading the file: " + ScheduleFName);
             e.printStackTrace();
         }
     }
 
-    public static List<Task> readTasksFromFile(String fileName) throws IOException {
-        List<Task> tasks = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+    public static List<Task> readTasksFromFile(String ScheduleFName) throws IOException {
+        List<Task> tsk = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(ScheduleFName));
         String line;
 
         while ((line = reader.readLine()) != null) {
             line = line.trim().replaceAll(",\\s*$", "");
-            String[] parts = line.split(",");
-            if (parts.length == 3) {
-                String taskName = parts[0].trim();
-                int priority = Integer.parseInt(parts[1].trim().replaceAll("[^\\d]", ""));
-                int burstTime = Integer.parseInt(parts[2].trim().replaceAll("[^\\d]", ""));
-                tasks.add(new Task(taskName, priority, burstTime));
+            String[] details = line.split(",");
+            if (details.length == 3) {
+                String taskName = details[0].trim();
+                int priority = Integer.parseInt(details[1].trim().replaceAll("[^\\d]", ""));
+                int burstTime = Integer.parseInt(details[2].trim().replaceAll("[^\\d]", ""));
+                tsk.add(new Task(taskName, priority, burstTime));
             } else {
                 System.out.println("Invalid format in line: " + line);
             }
         }
         reader.close();
-        return tasks;
+        return tsk;
     }
 
-    public static void runPriorityRoundRobin(List<Task> tasks) {
+    public static void execPriorityRoundRobin(List<Task> tsk) {
         Map<Integer, List<Task>> priorityGroups = new TreeMap<>();
-        for (Task task : tasks) {
+        for (Task task : tsk) {
             priorityGroups.computeIfAbsent(task.priority, k -> new ArrayList<>()).add(task);
         }
 
         int currentTime = 0;
-        int totalWaitTime = 0, totalTurnaroundTime = 0;
+        int ttlWaitingTime = 0, ttlTurnaroundTime = 0;
 
-        for (List<Task> group : priorityGroups.values()) {
-            while (!group.isEmpty()) {
-                Iterator<Task> iterator = group.iterator();
+        for (List<Task> grp : priorityGroups.values()) {
+            while (!grp.isEmpty()) {
+                Iterator<Task> iterator = grp.iterator();
                 while (iterator.hasNext()) {
                     Task task = iterator.next();
                     int timeSlice = Math.min(task.burstTime, TIME_QUANTUM);
@@ -65,15 +65,15 @@ public class PriorityRoundRobin {
                         int waitTime = turnaroundTime - task.burstTime;
 
                         System.out.println("Task: " + task.name + ", Wait Time: " + waitTime + ", Turnaround Time: " + turnaroundTime);
-                        totalWaitTime += waitTime;
-                        totalTurnaroundTime += turnaroundTime;
+                        ttlWaitingTime += waitTime;
+                        ttlTurnaroundTime += turnaroundTime;
                         iterator.remove();
                     }
                 }
             }
         }
 
-        System.out.println("Average Wait Time: " + (totalWaitTime / (double) tasks.size()));
-        System.out.println("Average Turnaround Time: " + (totalTurnaroundTime / (double) tasks.size()));
+        System.out.println("Average Wait Time: " + (ttlWaitingTime / (double) tsk.size()));
+        System.out.println("Average Turnaround Time: " + (ttlTurnaroundTime / (double) tsk.size()));
     }
 }

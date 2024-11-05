@@ -19,20 +19,20 @@ public class PriorityScheduling {
             return;
         }
 
-        String fileName = args[0];
+        String ScheduleFName = args[0];
 
         try {
-            List<Task> tasks = readTasksFromFile(fileName);
-            runPriorityScheduling(tasks);
+            List<Task> tsk = readTasksFromFile(ScheduleFName);
+            runPriorityScheduling(tsk);
         } catch (IOException e) {
-            System.out.println("Error reading the file: " + fileName);
+            System.out.println("Error reading the file: " + ScheduleFName);
             e.printStackTrace();
         }
     }
 
-    public static List<Task> readTasksFromFile(String fileName) throws IOException {
-        List<Task> tasks = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+    public static List<Task> readTasksFromFile(String ScheduleFName) throws IOException {
+        List<Task> tsk = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(ScheduleFName));
         String line;
 
         while ((line = reader.readLine()) != null) {
@@ -42,32 +42,32 @@ public class PriorityScheduling {
                 String taskName = parts[0].trim();
                 int priority = Integer.parseInt(parts[1].trim().replaceAll("[^\\d]", ""));
                 int burstTime = Integer.parseInt(parts[2].trim().replaceAll("[^\\d]", ""));
-                tasks.add(new Task(taskName, priority, burstTime));
+                tsk.add(new Task(taskName, priority, burstTime));
             } else {
                 System.out.println("Invalid format in line: " + line);
             }
         }
         reader.close();
-        return tasks;
+        return tsk;
     }
 
-    public static void runPriorityScheduling(List<Task> tasks) {
-        tasks.sort(Comparator.comparingInt(task -> task.priority));
+    public static void runPriorityScheduling(List<Task> tsk) {
+        tsk.sort(Comparator.comparingInt(task -> task.priority));
         int currentTime = 0;
-        int totalWaitTime = 0, totalTurnaroundTime = 0;
+        int ttlWaitTime = 0, ttlTurnaroundTime = 0;
 
-        for (Task task : tasks) {
+        for (Task task : tsk) {
             int waitTime = currentTime;
             int turnaroundTime = waitTime + task.burstTime;
             currentTime += task.burstTime;
 
             System.out.println("Task: " + task.name + ", Priority: " + task.priority + ", Wait Time: " + waitTime + ", Turnaround Time: " + turnaroundTime);
 
-            totalWaitTime += waitTime;
-            totalTurnaroundTime += turnaroundTime;
+            ttlWaitTime += waitTime;
+            ttlTurnaroundTime += turnaroundTime;
         }
 
-        System.out.println("Average Wait Time: " + (totalWaitTime / (double) tasks.size()));
-        System.out.println("Average Turnaround Time: " + (totalTurnaroundTime / (double) tasks.size()));
+        System.out.println("Average Wait Time: " + (ttlWaitTime / (double) tsk.size()));
+        System.out.println("Average Turnaround Time: " + (ttlTurnaroundTime / (double) tsk.size()));
     }
 }
