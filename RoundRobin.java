@@ -1,15 +1,12 @@
 import java.io.*;
 import java.util.*;
-
 public class RoundRobin {
     private static final int TIME_QUANTUM = 10;
-
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Error: the command format should be- java AlgorithmName schedule.txt");
             return;
         }
-
         String ScheduleFName = args[0];
 
         try {
@@ -45,7 +42,13 @@ public class RoundRobin {
     public static void execRoundRobin(List<Task> tsk) {
         int currentTime = 0;
         int ttlWaitTime = 0, ttlTurnaroundTime = 0;
-
+        int originalTaskCount = tsk.size();
+        Map<String, Integer> completionTimes = new HashMap<>();
+        Map<String, Integer> initialBurstTimes = new HashMap<>();
+        System.out.println("Round Robin Scheduling Algorithm-");
+        for (Task task : tsk) {
+            initialBurstTimes.put(task.name, task.burstTime);
+        }
         while (!tsk.isEmpty()) {
             Iterator<Task> iterator = tsk.iterator();
             while (iterator.hasNext()) {
@@ -56,8 +59,8 @@ public class RoundRobin {
 
                 if (task.burstTime == 0) {
                     int turnaroundTime = currentTime;
-                    int waitTime = turnaroundTime - timeSlice;
-                    System.out.println("Round Robin Scheduling Algorithm-");
+                    int waitTime = turnaroundTime - initialBurstTimes.get(task.name);
+                    completionTimes.put(task.name, turnaroundTime);
                     System.out.println("Task: " + task.name + ", Wait Time: " + waitTime + ", Turnaround Time: " + turnaroundTime);
                     ttlWaitTime += waitTime;
                     ttlTurnaroundTime += turnaroundTime;
@@ -66,7 +69,18 @@ public class RoundRobin {
             }
         }
 
-        System.out.println("RR Average Wait Time: " + (ttlWaitTime / (double) tsk.size()));
-        System.out.println("RR Average Turnaround Time: " + (ttlTurnaroundTime / (double) tsk.size()));
+        System.out.println("RR Average Wait Time: " + (ttlWaitTime / (double) originalTaskCount));
+        System.out.println("RR Average Turnaround Time: " + (ttlTurnaroundTime / (double) originalTaskCount));
+    }
+}
+class Task {
+    String name;
+    int priority;
+    int burstTime;
+
+    Task(String name, int priority, int burstTime) {
+        this.name = name;
+        this.priority = priority;
+        this.burstTime = burstTime;
     }
 }

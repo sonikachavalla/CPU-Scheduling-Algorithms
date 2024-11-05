@@ -44,12 +44,11 @@ public class SJF {
         tsk.sort(Comparator.comparingInt(task -> task.burstTime));
         int currentTime = 0;
         int ttlWaitTime = 0, ttlTurnaroundTime = 0;
-
+        System.out.println("Shortest Job First Scheduling Algorithm-");
         for (Task task : tsk) {
             int waitTime = currentTime;
             int turnaroundTime = waitTime + task.burstTime;
             currentTime += task.burstTime;
-            System.out.println("Shortest Job First Scheduling Algorithm-");
             System.out.println("Task: " + task.name + ", Wait Time: " + waitTime + ", Turnaround Time: " + turnaroundTime);
 
             ttlWaitTime += waitTime;

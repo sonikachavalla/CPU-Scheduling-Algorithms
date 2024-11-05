@@ -50,7 +50,7 @@ public class PriorityRoundRobin {
 
         int currentTime = 0;
         int ttlWaitingTime = 0, ttlTurnaroundTime = 0;
-
+        System.out.println("Priority Round Robin Scheduling Algorithm-");
         for (List<Task> grp : priorityGroups.values()) {
             while (!grp.isEmpty()) {
                 Iterator<Task> iterator = grp.iterator();
@@ -63,7 +63,6 @@ public class PriorityRoundRobin {
                     if (task.burstTime == 0) {
                         int turnaroundTime = currentTime;
                         int waitTime = turnaroundTime - task.burstTime;
-                        System.out.println("Priority Round Robin Scheduling Algorithm-");
                         System.out.println("Task: " + task.name + ", Wait Time: " + waitTime + ", Turnaround Time: " + turnaroundTime);
                         ttlWaitingTime += waitTime;
                         ttlTurnaroundTime += turnaroundTime;

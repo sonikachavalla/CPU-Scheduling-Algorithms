@@ -43,12 +43,11 @@ public class FCFS {
     public static void runFCFS(List<Task> tsk) {
         int ttlWaitTime = 0, ttlTurnaroundTime = 0;
         int currentTime = 0;
-
+        System.out.println("First Come First Serve Scheduling Algorithm-");
         for (Task currenttask : tsk) {
             int waitTime = currentTime;
             int turnaroundTime = waitTime + currenttask.burstTime;
             currentTime += currenttask.burstTime;
-            System.out.println("First Come First Serve Scheduling Algorithm-");
             System.out.println("Task: " + currenttask.name + ", Wait Time: " + waitTime + ", Turnaround Time: " + turnaroundTime);
 
             ttlWaitTime += waitTime;
