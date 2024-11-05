@@ -6,7 +6,7 @@ public class PriorityRoundRobin {
 
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("Usage: java PriorityRoundRobin <schedule_file>");
+            System.out.println("Error: the command format should be- java AlgorithmName schedule.txt");
             return;
         }
 
@@ -63,7 +63,7 @@ public class PriorityRoundRobin {
                     if (task.burstTime == 0) {
                         int turnaroundTime = currentTime;
                         int waitTime = turnaroundTime - task.burstTime;
-
+                        System.out.println("Priority Round Robin Scheduling Algorithm-");
                         System.out.println("Task: " + task.name + ", Wait Time: " + waitTime + ", Turnaround Time: " + turnaroundTime);
                         ttlWaitingTime += waitTime;
                         ttlTurnaroundTime += turnaroundTime;
@@ -73,7 +73,7 @@ public class PriorityRoundRobin {
             }
         }
 
-        System.out.println("Average Wait Time: " + (ttlWaitingTime / (double) tsk.size()));
-        System.out.println("Average Turnaround Time: " + (ttlTurnaroundTime / (double) tsk.size()));
+        System.out.println("PRR Average Wait Time: " + (ttlWaitingTime / (double) tsk.size()));
+        System.out.println("PRR Average Turnaround Time: " + (ttlTurnaroundTime / (double) tsk.size()));
     }
 }

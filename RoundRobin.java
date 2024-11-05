@@ -6,7 +6,7 @@ public class RoundRobin {
 
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("Usage: java RoundRobin <schedule_file>");
+            System.out.println("Error: the command format should be- java AlgorithmName schedule.txt");
             return;
         }
 
@@ -57,7 +57,7 @@ public class RoundRobin {
                 if (task.burstTime == 0) {
                     int turnaroundTime = currentTime;
                     int waitTime = turnaroundTime - timeSlice;
-
+                    System.out.println("Round Robin Scheduling Algorithm-");
                     System.out.println("Task: " + task.name + ", Wait Time: " + waitTime + ", Turnaround Time: " + turnaroundTime);
                     ttlWaitTime += waitTime;
                     ttlTurnaroundTime += turnaroundTime;
@@ -66,7 +66,7 @@ public class RoundRobin {
             }
         }
 
-        System.out.println("Average Wait Time: " + (ttlWaitTime / (double) tsk.size()));
-        System.out.println("Average Turnaround Time: " + (ttlTurnaroundTime / (double) tsk.size()));
+        System.out.println("RR Average Wait Time: " + (ttlWaitTime / (double) tsk.size()));
+        System.out.println("RR Average Turnaround Time: " + (ttlTurnaroundTime / (double) tsk.size()));
     }
 }

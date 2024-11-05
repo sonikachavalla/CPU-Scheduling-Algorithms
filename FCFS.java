@@ -48,14 +48,14 @@ public class FCFS {
             int waitTime = currentTime;
             int turnaroundTime = waitTime + currenttask.burstTime;
             currentTime += currenttask.burstTime;
-
+            System.out.println("First Come First Serve Scheduling Algorithm-");
             System.out.println("Task: " + currenttask.name + ", Wait Time: " + waitTime + ", Turnaround Time: " + turnaroundTime);
 
             ttlWaitTime += waitTime;
             ttlTurnaroundTime += turnaroundTime;
         }
 
-        System.out.println("Average Wait Time: " + (ttlWaitTime / (double) tsk.size()));
-        System.out.println("Average Turnaround Time: " + (ttlTurnaroundTime / (double) tsk.size()));
+        System.out.println("FCFS Average Wait Time: " + (ttlWaitTime / (double) tsk.size()));
+        System.out.println("FCFS Average Turnaround Time: " + (ttlTurnaroundTime / (double) tsk.size()));
     }
 }

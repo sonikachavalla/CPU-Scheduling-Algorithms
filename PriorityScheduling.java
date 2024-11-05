@@ -15,7 +15,7 @@ class Task {
 public class PriorityScheduling {
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("Usage: java PriorityScheduling <schedule_file>");
+            System.out.println("Error: the command format should be- java AlgorithmName schedule.txt");
             return;
         }
 
@@ -60,14 +60,14 @@ public class PriorityScheduling {
             int waitTime = currentTime;
             int turnaroundTime = waitTime + task.burstTime;
             currentTime += task.burstTime;
-
+            System.out.println("Priority Scheduling Algorithm-");
             System.out.println("Task: " + task.name + ", Priority: " + task.priority + ", Wait Time: " + waitTime + ", Turnaround Time: " + turnaroundTime);
 
             ttlWaitTime += waitTime;
             ttlTurnaroundTime += turnaroundTime;
         }
 
-        System.out.println("Average Wait Time: " + (ttlWaitTime / (double) tsk.size()));
-        System.out.println("Average Turnaround Time: " + (ttlTurnaroundTime / (double) tsk.size()));
+        System.out.println("PS Average Wait Time: " + (ttlWaitTime / (double) tsk.size()));
+        System.out.println("PS Average Turnaround Time: " + (ttlTurnaroundTime / (double) tsk.size()));
     }
 }
